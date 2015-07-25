@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Trivia
 {
-    [ApiVersion(1,19)]
+    [ApiVersion(1,20)]
     public class Trivia : TerrariaPlugin
     {
         public static TriviaManager TriviaManager = new TriviaManager();
