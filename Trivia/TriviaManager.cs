@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using TShockAPI;
-using Wolfje.Plugins.SEconomy;
-using Wolfje.Plugins.SEconomy.Journal;
+//using Wolfje.Plugins.SEconomy;
+//using Wolfje.Plugins.SEconomy.Journal;
 
 namespace Trivia
 {
     public class TriviaManager
     {
+		public Lang Language;
         public Config Config;
         public bool PendingAnswer { get { return QuestionAsked; } }
         private Timer _timer = new Timer(1000);
@@ -56,6 +57,7 @@ namespace Trivia
         public void Load_Config()
         {
             Config = new Config(Config.SavePath);
+			Language = new Lang();
             this.Enabled = Config.Enabled;
         }
 
@@ -87,7 +89,7 @@ namespace Trivia
                 count = 0;
                 QuestionAsked = false;
                 WrongAnswers.Clear();
-                TSPlayer.All.SendErrorMessage("[Trivia] Time is up!");
+                TSPlayer.All.SendErrorMessage(Language.TimeUpMessage);
             }
         }
 
@@ -98,7 +100,7 @@ namespace Trivia
 
         private void AnnouceQuestion()
         {
-            TSPlayer.All.SendInfoMessage("[Trivia] Type /answer or /a <answer here>");
+            TSPlayer.All.SendInfoMessage(Language.AnnounceQuestion);
             TSPlayer.All.SendInfoMessage("[Trivia] " + CurrentQandA.Question);
         }
 
@@ -116,14 +118,14 @@ namespace Trivia
                 TSPlayer.All.SendErrorMessage(string.Format("Wrong answers were: {0}", string.Join(", ", WrongAnswers)));
             WrongAnswers.Clear();
 
-            if (SEconomyPlugin.Instance != null)
+            /*if (SEconomyPlugin.Instance != null)
             {
                 IBankAccount Server = SEconomyPlugin.Instance.GetBankAccount(TSServerPlayer.Server.UserID);
                 IBankAccount Player = SEconomyPlugin.Instance.GetBankAccount(ts.Index);
                 Server.TransferToAsync(Player, Config.CurrencyAmount, BankAccountTransferOptions.AnnounceToReceiver, "answering the trivia question correctly", "Answered trivia question");
             }
             else
-                ts.SendErrorMessage("[Trivia] Transaction failed because SEconomy is disabled!");
+                ts.SendErrorMessage("[Trivia] Transaction failed because SEconomy is disabled!");*/
         }
     }
 }
